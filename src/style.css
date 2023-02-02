@@ -4,6 +4,7 @@
     box-sizing: border-box;
 }
 main{
+    /* background-color: rgb(83, 170, 170); */
     background: radial-gradient(circle at 10% 20%, rgb(0, 93, 133) 0%, rgb(0, 181, 149) 90%);
     height: 100vh;
     display: flex;
@@ -33,13 +34,13 @@ h1 {
     margin-bottom: 30px;
     font-size: medium;
 }
-.add-container{
+.todo{
     align-self: stretch;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.add-container input{
+.todo-input{
     width: 90%;
     height: 40px;
     padding-left: 20px;
@@ -60,65 +61,42 @@ h1 {
 .add-button:hover{
     scale: 1.02;
 }
-/* .todo-container{
-    background: red;
-} */
-.todo-item{
+#todo-container{
+    /* background: red; */
+}
+.task-item{
     display: flex;
     align-items: center;
-    justify-content:flex-start;
+    justify-content:space-between ;
     margin-left: 20px;
     margin-right: 10px;
     margin-bottom: 15px;
     height: 50;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    background: rgb(236, 229, 229);
-    border-radius: 10px;
+}
+.check{
+    height: 100%;
+    font-size: large;
 }
 input[type=checkbox]{
     margin-right: 20px;
-    margin-left: 20px;
 }
-.todo-item span{
-    width: 50%;
-}
-.category-container{
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    /* background: red; */
-}
-.category-container input{
-    width: 11em;
-    height: 2em;
-    font-weight: bold;
-    background-color: #33b89b;
-    cursor: pointer;
-    border-radius: 5px;
-}
-.category-container select{
-    width: 6em;
-    height: 2em;
-    font-weight: bold;
-    background-color: #33b89b;
-    cursor: pointer;
-    border-radius: 5px;
-    /* margin-bottom:30px; */
-}
-.delete-button{
+.delete-container{
     margin-right: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
 }
-.category,.date{
-    font-style: italic;
+.delete-container img{
+    padding: 2px;
 }
-.todo-details{
-    width: 70%;
-    display: flex;
-    align-items:  stretch;
-    justify-content: space-between;
+.delete-container img:hover{
+    border-radius: 5px;
+    background-color: rgb(209, 205, 205);
 }
+input[type=checkbox]:checked + span{
+    text-decoration: line-through;
+  }
+  input[type=checkbox]:checked + .task-item{
+    text-decoration: line-through;
+  }

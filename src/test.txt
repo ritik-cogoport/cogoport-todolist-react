@@ -1,0 +1,71 @@
+let tasks = getList();
+let counter = 1;
+let container = document.getElementById("todo-container");
+let localStorageList = [];
+// localStorage.clear()
+let tempList = getList()
+function getList(){
+  const storedList = localStorage.getItem("list");
+  const list = storedList?JSON.parse(storedList):[];
+  return list;
+}
+if(tempList.length!=0){
+  tempList.forEach(t =>{
+    let individualTask = `<div class="task-item" id = "task-${counter}"><div class="check"><input type="checkbox"><span>${t}</span></div><div class="delete-container"><img onClick="deleteTask(${counter})" src = "/delete-svg.svg"></div></div>`;
+    container.innerHTML += individualTask;
+    counter++;
+  })
+}
+function updateJSON() {
+  const listToStore = JSON.stringify(tasks);
+  localStorage.setItem("list",listToStore);
+}
+function searchbox() {
+  let search = document.getElementById("search-box").value;
+  if (search !== "") {
+    counter = 1;
+    container.innerHTML = "";
+    tasks.map((task) => {
+      if (task.includes(search)) {
+        container.innerHTML += `<div class="task-item" id = "task-${counter}"><div class="check"><input type="checkbox"><span>${task}</span></div><div class="delete-container"><img onClick="deleteTask(${counter})" src = "/delete-svg.svg"></div></div>`;
+      }
+    });
+  } else {
+    counter = 1;
+    container.innerHTML = "";
+    tasks.forEach((task) => {
+      let individualTask = `<div class="task-item" id = "task-${counter}"><div class="check"><input type="checkbox"><span>${task}</span></div><div class="delete-container"><img onClick="deleteTask(${counter})" src = "/delete-svg.svg"></div></div>`;
+      container.innerHTML += individualTask;
+      counter++;
+    });
+    console.log(tasks);
+  }
+}
+function deleteTask(counter) {
+  let deletedTask = document.getElementById(`task-${counter}`);
+  let innerText = deletedTask.firstChild.children[1].innerHTML;
+  deletedTask.style.display="none";
+  deletedTask.innerHTML = "";
+  tasks = tasks.filter((t) => {
+    return t != innerText;
+  });
+
+  console.log(tasks);
+  updateJSON()
+}
+function addTodo() {
+  let task = document.getElementById("todo-input").value;
+  if(task===""){
+    alert("Please Enter a Valid To-Do");
+  }
+  else{
+    tasks.push(task);
+    let individualTask = `<div class="task-item" id = "task-${counter}"><div class="check"><input type="checkbox"><span>${task}</span></div><div class="delete-container"><img onClick="deleteTask(${counter})" src = "/delete-svg.svg"></div></div>`;
+    container.innerHTML += individualTask;
+    counter++;
+    document.getElementById("todo-input").value = "";
+
+    updateJSON()
+  }
+}
+
