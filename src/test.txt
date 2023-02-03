@@ -1,0 +1,19 @@
+
+  // useEffect(() => {
+  //   // if(showtodos.length==todos.length){
+  //     setShowtodos(todos.filter(t => t.text.includes(search)));
+  //   // }else{
+  //   //   setShowtodos(showtodos.filter(t => t.text.includes(search)));
+  //   // }
+  // }, [search]);
+
+  // useEffect(() => {
+  //   // console.log(filter);
+  //   // console.log(showtodos);
+  //   setShowtodos(todos.filter(t => t.filter===filter));
+  //   if(filter==="all") setShowtodos(todos);
+  // }, [filter]);
+  // useEffect(() => {
+  //   setShowtodos(todos.filter(t => t.date===datefilter));
+  // }, [datefilter]);
+

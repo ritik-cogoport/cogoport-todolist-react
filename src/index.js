@@ -4,6 +4,27 @@ import '../src/index.css'
 import {v4 as uuid} from 'uuid';
 import {ImBin2} from "react-icons/im"
 import {BsCheckSquare} from "react-icons/bs"
+import {FiSearch} from "react-icons/fi"
+
+import Modal from 'react-modal';
+import "../src/components/modal.css"
+import {AiFillCloseCircle} from 'react-icons/ai'
+const customStyles = {
+    content: {
+     border:"2px solid black",
+      top: '50%',
+      width:"600px",
+      height:"300px",
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+    },
+  };
+
+Modal.setAppElement(document.getElementById('root'));
+
 const App = () => {
   
   const [category,setCategory] = useState('default');
@@ -27,23 +48,31 @@ const App = () => {
     setShowtodos(todos);
   }, [todos]);
 
-  useEffect(() => {
-    // if(showtodos.length==todos.length){
-      setShowtodos(todos.filter(t => t.text.includes(search)));
-    // }else{
-    //   setShowtodos(showtodos.filter(t => t.text.includes(search)));
-    // }
-  }, [search]);
+  const filterSearch = (to) => {
+    if(search){
+      return to.filter(t => t.text.includes(search));
+    }else return to;
 
+  }
+  const filterCategory = (to) => {
+    if(filter==="") return to;
+    if(filter==="all") return to;
+    return to.filter(t => t.filter===filter);
+    
+  }
+  const filterDate = (to) => {
+    if(datefilter==="") return to;
+    return to.filter(t => t.date===datefilter);
+  }
   useEffect(() => {
-    // console.log(filter);
-    // console.log(showtodos);
-    setShowtodos(todos.filter(t => t.filter===filter));
-    if(filter==="all") setShowtodos(todos);
-  }, [filter]);
-  useEffect(() => {
-    setShowtodos(todos.filter(t => t.date===datefilter));
-  }, [datefilter]);
+    let result = todos;
+    result = filterSearch(result);
+    setShowtodos(result);
+    result = filterCategory(result);
+    setShowtodos(result);
+    result = filterDate(result);
+    setShowtodos(result);
+  },[search,filter,datefilter]);
 
   const addTodo = () => {
     const id = uuid();
@@ -67,14 +96,18 @@ const App = () => {
       <div className='container'>
         <h1>To-Do List</h1>
         <div className="search-and-filter">
-          
+          <div className="search-container">
           <input
           value={search}
           className='search'
           onChange={(e) => setSearch(e.target.value)}
           placeholder='Search Here'
-          type="text" />
-          <div className="filters">
+          type="text"
+           /><FiSearch className='search-icon'/>
+          </div>
+        <ModalElement className="modal-element" fl = {filter} setFl = {setFilter} df = {datefilter} setDf = {setDateFilter}  />
+          
+          {/* <div className="filters">
             <span>Filter By :-</span>
             <input type="date" onChange={(e)=>setDateFilter(e.target.value)} />
             <select name="category" id="category" onChange={(e)=>setFilter(e.target.value)}>
@@ -85,7 +118,7 @@ const App = () => {
             <option value="fitness">Fitness</option>
           </select>
 
-          </div>
+          </div> */}
         </div>
         <div className='add-container'>
         <input
@@ -122,39 +155,74 @@ const App = () => {
                    </div>
           })
         }
-        {/* {
-          search===""?(todos.map((todo) => {
-            return <div className='todo-item'>
-                     <input className='check' type="checkbox" onChange={() => {markDone(todo.id)}} />
-                     <div className='todo-details'>
-                      <span>{todo.status===true?<s>{todo.text}</s>:todo.text}</span>
-                      <span className='category'>{todo.category}</span>
-                      <span className='date'>{todo.date}</span>
-                     </div>
-                     <ImBin2 className='delete-button' onClick={() => deleteTodo(todo.id)} />
-                     
-                   </div>
-          })):(todos.map((todo) => {
-            if(todo.text.includes(search)){
-              return <div className='todo-item'>
-              <input className='check' type="checkbox" onChange={() => {markDone(todo.id)}} />
-              <div className='todo-details'>
-                      <span>{todo.status===true?<s>{todo.text}</s>:todo.text}</span>
-                      <span className='category'>{todo.category}</span>
-                      <span className='date'>{todo.date}</span>
-                     </div>
-                     <ImBin2 className='delete-button' onClick={() => deleteTodo(todo.id)} />
-
-            </div>
-            }
-          }))
-
-          // console.log("hello")
-        } */}
       </div>
       </div>
     </main>
   )
+}
+
+const ModalElement = (props) => {
+  let filter = props.fl;
+  let setFilter = props.setFl
+  let datefilter = props.df;
+  let setDateFilter = props.setDf
+  let subtitle;
+const [modalIsOpen, setIsOpen] = React.useState(false);
+
+function openModal() {
+  setIsOpen(true);
+}
+
+function afterOpenModal() {
+  // references are now sync'd and can be accessed.
+  subtitle.style.color = 'black';
+}
+
+function closeModal() {
+  setIsOpen(false);
+}
+
+return (
+  <div className='modal-container'>
+    <button className='open-button' onClick={openModal}>Apply Filter</button>
+    <Modal
+      isOpen={modalIsOpen}
+      onAfterOpen={afterOpenModal}
+      onRequestClose={closeModal}
+      style={customStyles}
+      contentLabel="Example Modal"
+    >
+      <div className="opened-container">
+      <h2 className='modal-heading' ref={(_subtitle) => (subtitle = _subtitle)}>Filters</h2>
+      <AiFillCloseCircle className='close-button' onClick={closeModal} />
+      {/* <button className='close-button' onClick={closeModal}>close</button> */}
+      <div className="filters-container">
+          <div className="category-filter">
+              <div className="filter-heading">Filter by Category</div>
+              {/* <select name="category" id="category" onChange={(e)=>setFilter(e.target.value)}> */}
+              <select name="category" id="category" onChange={(e)=>setFilter(e.target.value)}>
+                  <option value="all" selected={filter==="all"}>All Category</option>
+                  <option value="default" selected={filter==="default"}>Default</option>
+                  <option value="food" selected={filter==="food"} >Food</option>
+                  <option value="travel" selected={filter==="travel"}>Travel</option>
+                  <option value="fitness" selected={filter==="fitness"}>Fitness</option>
+              </select>
+          </div>
+          <div className="date-filter">
+          <div className="filter-heading">Filter by Date</div>
+              <div className="date-range">
+                  <input type="date" value={datefilter} onChange={(e)=>setDateFilter(e.target.value)} />
+                  {/* <input type="date" name="" id="" /> */}
+              </div>
+          </div>
+              
+      </div>
+      </div>
+      
+    </Modal>
+  </div>
+
+)
 }
 
 ReactDOM.render(<App />,document.getElementById('root'));

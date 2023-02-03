@@ -26,6 +26,11 @@ h1 {
     letter-spacing: 2.5px;
     margin-bottom: 15px;
     text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+}
+.search-container{
+    display: flex;
+    align-items: baseline;
 }
 .search{
     width: 90%;
@@ -35,6 +40,11 @@ h1 {
     margin-right: 20px;
     margin-bottom: 20px;
     font-size: medium;
+}
+.search-icon{
+    text-align: center;
+    margin-left: -50px;
+    cursor: pointer;
 }
 .add-container{
     align-self: stretch;
@@ -52,13 +62,15 @@ h1 {
     font-size: medium;
 }
 .add-button{
-    width: 8em;
-    height: 3em;
+    width: 5em;
+    height: 2em;
     font-weight: bold;
     background-color: #33b89b;
     cursor: pointer;
     border-radius: 5px;
     margin-bottom:30px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: large;
 }
 .add-button:hover{
     scale: 1.02;
