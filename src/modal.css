@@ -15,6 +15,9 @@
     font-family: 'Courier New', Courier, monospace;
     margin-top: -10px;
 }
+.open-button:hover{
+    scale: 1.02;
+}
 
 .opened-container{
 }
@@ -33,6 +36,9 @@
     margin-top: 20px;
     cursor: pointer;
 }
+.close-button:hover{
+    scale: 1.05;
+}
 .filters-container{
     margin-top: 40px;
     padding: 20px;
@@ -43,7 +49,7 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-around;
-    background: rgb(236, 229, 229);
+    background: rgb(249, 247, 247);
     border-radius: 15px;
 }
 .category-filter{
@@ -76,6 +82,14 @@
     /* line-height: 10px; */
 }
 .date-range{
+    display: flex;
+    flex-direction: column;
+}
+.start-date{
+    display: flex;
+    flex-direction: column;
+}
+.end-date{
     display: flex;
     flex-direction: column;
 }

@@ -106,8 +106,8 @@ input[type=checkbox]{
 .category-container{
     display: flex;
     align-items: flex-start;
+    /* align-items: center; */
     justify-content: center;
-    /* background: red; */
 }
 .category-container input{
     width: 11em;
@@ -116,6 +116,7 @@ input[type=checkbox]{
     background-color: #33b89b;
     cursor: pointer;
     border-radius: 5px;
+    margin-left: -4px;
 }
 .category-container select{
     width: max-content;
@@ -124,7 +125,10 @@ input[type=checkbox]{
     background-color: #33b89b;
     cursor: pointer;
     border-radius: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
     /* margin-bottom:30px; */
+    border: 1.5px solid black;
 }
 .delete-button{
     margin-right: 10px;
@@ -207,4 +211,12 @@ input[type=checkbox]{
 }
 .checked{
     background: rgb(50, 240, 69);
+}
+
+
+
+.category-filter-container{
+    background: red;
+    position: relative;
+    cursor: pointer;
 }

@@ -5,15 +5,15 @@ import {v4 as uuid} from 'uuid';
 import {ImBin2} from "react-icons/im"
 import {BsCheckSquare} from "react-icons/bs"
 import {FiSearch} from "react-icons/fi"
+import {AiFillCloseCircle} from 'react-icons/ai'
 
 import Modal from 'react-modal';
-import "../src/components/modal.css"
-import {AiFillCloseCircle} from 'react-icons/ai'
+import "../src/modal.css"
 const customStyles = {
     content: {
      border:"2px solid black",
       top: '50%',
-      width:"600px",
+      width:"550px",
       height:"300px",
       left: '50%',
       right: 'auto',
@@ -35,7 +35,9 @@ const App = () => {
   const [search,setSearch] = useState('');
   const [filter,setFilter] = useState('');
   const [datefilter,setDateFilter] = useState('');
-  
+  const [startdate,setStartdate] = useState('');
+  const [enddate,setEnddate] = useState('');
+
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem('items'));
     if(items){
@@ -105,20 +107,17 @@ const App = () => {
           type="text"
            /><FiSearch className='search-icon'/>
           </div>
-        <ModalElement className="modal-element" fl = {filter} setFl = {setFilter} df = {datefilter} setDf = {setDateFilter}  />
+        <ModalElement className="modal-element" 
+        fl = {filter} 
+        setFl = {setFilter} 
+        df = {datefilter} 
+        setDf = {setDateFilter} 
+        sd = {startdate} 
+        setSd = {setStartdate}
+        ed = {enddate} 
+        setEd = {setEnddate} />
           
-          {/* <div className="filters">
-            <span>Filter By :-</span>
-            <input type="date" onChange={(e)=>setDateFilter(e.target.value)} />
-            <select name="category" id="category" onChange={(e)=>setFilter(e.target.value)}>
-            <option value="all">All Category</option>
-            <option value="default">Default</option>
-            <option value="food">Food</option>
-            <option value="travel">Travel</option>
-            <option value="fitness">Fitness</option>
-          </select>
 
-          </div> */}
         </div>
         <div className='add-container'>
         <input
@@ -129,10 +128,13 @@ const App = () => {
         <div className='category-container'>
           <input type="date" name="" id="" onChange={(e)=>setDate(e.target.value)}/>
           <select name="category" id="category" onChange={(e)=>setCategory(e.target.value)}>
+            <option value="" hidden>Add a Category</option>
             <option value="default">Default</option>
             <option value="food">Food</option>
             <option value="travel">Travel</option>
             <option value="fitness">Fitness</option>
+            <option value="office">Office</option>
+            <option value="family">Family</option>
           </select>
         </div>
 
@@ -166,6 +168,7 @@ const ModalElement = (props) => {
   let setFilter = props.setFl
   let datefilter = props.df;
   let setDateFilter = props.setDf
+
   let subtitle;
 const [modalIsOpen, setIsOpen] = React.useState(false);
 
@@ -174,7 +177,7 @@ function openModal() {
 }
 
 function afterOpenModal() {
-  // references are now sync'd and can be accessed.
+  
   subtitle.style.color = 'black';
 }
 
@@ -195,11 +198,9 @@ return (
       <div className="opened-container">
       <h2 className='modal-heading' ref={(_subtitle) => (subtitle = _subtitle)}>Filters</h2>
       <AiFillCloseCircle className='close-button' onClick={closeModal} />
-      {/* <button className='close-button' onClick={closeModal}>close</button> */}
       <div className="filters-container">
           <div className="category-filter">
               <div className="filter-heading">Filter by Category</div>
-              {/* <select name="category" id="category" onChange={(e)=>setFilter(e.target.value)}> */}
               <select name="category" id="category" onChange={(e)=>setFilter(e.target.value)}>
                   <option value="all" selected={filter==="all"}>All Category</option>
                   <option value="default" selected={filter==="default"}>Default</option>
@@ -212,7 +213,7 @@ return (
           <div className="filter-heading">Filter by Date</div>
               <div className="date-range">
                   <input type="date" value={datefilter} onChange={(e)=>setDateFilter(e.target.value)} />
-                  {/* <input type="date" name="" id="" /> */}
+                
               </div>
           </div>
               
